@@ -6,7 +6,14 @@ RUN apt update && apt install wget lsb-release -y && \
 
 RUN apt update && apt -y install msopenjdk-21
 
-RUN pip install jupyterlab==4.3.3 kotlin-jupyter-kernel==0.12.0.322
+RUN pip install \
+    jupyterlab==4.3.3 \
+    kotlin-jupyter-kernel==0.12.0.322 \
+    sos-notebook==0.24.4 \
+    jupyterlab-sos==0.11.0 \
+    sos==0.25.1
+
+RUN python -m sos_notebook.install
 
 # Set the working directory
 WORKDIR /notebooks
