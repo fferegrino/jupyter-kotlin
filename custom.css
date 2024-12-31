@@ -1,0 +1,8 @@
+div[class*="sos_lan__python"] { 
+    background: linear-gradient(90deg, rgba(255,222,87,1) 10px, rgba(69,132,182,1) 10px, rgba(69,132,182,1) 20px, rgba(254,254,254,1) 20px);
+}
+div[class*="sos_lan__kotlin"] {
+    background: linear-gradient(90deg, rgba(180,140,252,1) 0px, rgba(196,22,224,1) 6px, rgba(223,73,107,1) 16px, rgba(223,73,107,1) 20px, rgba(255,255,255,1) 20px)
+}
+
+div[class*="sos_lan__kotlin"] div[data-mime-type="application/vnd.jupyter.stderr"] { display: none; }
