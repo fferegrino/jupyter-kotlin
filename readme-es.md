@@ -71,7 +71,7 @@ Para ejecutar el contenedor:
 docker run \
     -it \
     -p 8888:8888 \
-    -v $(pwd)/notebooks:/notebooks \
+    -v $(pwd)/notebooks:/home/jovyan/notebooks \
     kotlin-kernel
 ```
 
@@ -115,7 +115,7 @@ docker build -t jupyter-kotlin .
 docker run \
     -it \
     -p 8888:8888 \
-    -v $(pwd)/notebooks:/notebooks \
+    -v $(pwd)/notebooks:/home/jovyan/notebooks \
     jupyter-kotlin
 ```
 
@@ -142,7 +142,7 @@ Para implementar esta personalización, guardé el CSS en un archivo llamado `cu
 
 ```docker
 # Copy the custom.css file
-COPY custom.css /root/.jupyter/custom/custom.css
+COPY custom.css ${HOME}/.jupyter/custom/custom.css
 ```
 
 Además, es necesario especificar al comando `jupyter lab` que queremos usar este CSS personalizado, añadiendo la bandera `--custom-css` al comando de ejecución.

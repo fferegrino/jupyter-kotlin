@@ -1,37 +1,26 @@
 # Start from a base image with python 3.12.1
-FROM python:3.12.1 AS kotlin-kernel
+FROM quay.io/jupyter/base-notebook:2024-12-31 AS kotlin-kernel
 
-# Install Java 21
-RUN apt update && apt install wget lsb-release -y && \
-    wget https://packages.microsoft.com/config/debian/$(lsb_release -rs)/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
-    dpkg -i packages-microsoft-prod.deb
+USER root
 
-RUN apt update && apt -y install msopenjdk-21
+RUN apt update && apt -y install openjdk-21-jdk
+
+USER jovyan
 
 # Install Kotlin kernel
-RUN pip install \
-    jupyterlab==4.3.3 \
+RUN pip install --user \
     kotlin-jupyter-kernel==0.12.0.322
 
-# Set the working directory
-WORKDIR /notebooks
+RUN mkdir -p /home/jovyan/notebooks
 
-# Specify the command to run
-CMD ["jupyter", \
-    "lab", \
-    "--ip=0.0.0.0", \
-    "--port=8888", \
-    "--no-browser", \
-    "--allow-root", \
-    "--NotebookApp.token=''", \
-    "--NotebookApp.password=''", \
-    "--notebook-dir=/notebooks"]
+ENV NOTEBOOK_ARGS="--no-browser --notebook-dir=/home/jovyan/notebooks"
 
 # Start from the kotlin-kernel image
 FROM kotlin-kernel
 
 # Install sos-notebook
-RUN pip install sos-notebook==0.24.4 \
+RUN pip install --user \
+    sos-notebook==0.24.4 \
     jupyterlab-sos==0.11.0 \
     sos==0.25.1
 
@@ -39,14 +28,6 @@ RUN pip install sos-notebook==0.24.4 \
 RUN python -m sos_notebook.install
 
 # Copy the custom.css file
-COPY custom.css /root/.jupyter/custom/custom.css
+COPY custom.css ${HOME}/.jupyter/custom/custom.css
 
-CMD ["jupyter", "lab", \
-    "--ip=0.0.0.0", \
-    "--port=8888", \
-    "--custom-css", \
-    "--no-browser", \
-    "--allow-root", \
-    "--NotebookApp.token=''", \
-    "--NotebookApp.password=''", \
-    "--notebook-dir=/notebooks"]
+ENV NOTEBOOK_ARGS="${NOTEBOOK_ARGS} --custom-css"
