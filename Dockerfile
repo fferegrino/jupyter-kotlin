@@ -3,7 +3,7 @@ FROM quay.io/jupyter/base-notebook:2024-12-31 AS kotlin-kernel
 
 USER root
 
-RUN apt update && apt -y install openjdk-21-jdk
+RUN apt-get update && apt-get -y install openjdk-21-jdk
 
 USER jovyan
 
