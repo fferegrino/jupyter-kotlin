@@ -107,7 +107,7 @@ docker build -t jupyter-kotlin .
 docker run \
     -it \
     -p 8888:8888 \
-    -v $(pwd)/notebooks:/home/jovyan/notebooks .
+    -v $(pwd)/notebooks:/home/jovyan/notebooks \
     jupyter-kotlin
 ```
 
